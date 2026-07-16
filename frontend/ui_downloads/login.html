@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CodeScope AI - Login</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#b7b5b4",
+                    "tertiary": "#ffb786",
+                    "on-surface": "#e5e2e1",
+                    "surface-variant": "#353534",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "surface-container-highest": "#353534",
+                    "on-primary-fixed": "#001a42",
+                    "error-container": "#93000a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed-dim": "#adc6ff",
+                    "outline": "#8c909f",
+                    "on-tertiary-container": "#461f00",
+                    "on-primary-container": "#00285d",
+                    "on-secondary": "#303030",
+                    "secondary-fixed": "#e5e2e1",
+                    "tertiary-container": "#df7412",
+                    "primary": "#adc6ff",
+                    "secondary-container": "#474746",
+                    "primary-container": "#4d8eff",
+                    "on-tertiary-fixed": "#311400",
+                    "inverse-on-surface": "#313030",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-dim": "#131313",
+                    "inverse-surface": "#e5e2e1",
+                    "on-secondary-fixed": "#1b1b1c",
+                    "secondary": "#c8c6c5",
+                    "inverse-primary": "#005ac2",
+                    "surface-container-low": "#1c1b1b",
+                    "on-primary": "#002e6a",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "error": "#ffb4ab",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "on-surface-variant": "#c2c6d6",
+                    "on-secondary-fixed-variant": "#474746",
+                    "on-primary-fixed-variant": "#004395",
+                    "primary-fixed": "#d8e2ff",
+                    "surface": "#131313",
+                    "outline-variant": "#424754",
+                    "background": "#131313",
+                    "on-background": "#e5e2e1",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary": "#502400",
+                    "on-error-container": "#ffdad6",
+                    "surface-tint": "#adc6ff",
+                    "on-error": "#690005",
+                    "surface-container": "#201f1f",
+                    "surface-bright": "#393939"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "4px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "2xl": "48px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "code-block": ["JetBrains Mono"],
+                    "label-caps": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "code-block": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        .form-input {
+            background-color: #131313;
+            border: 1px solid #424754;
+            color: #e5e2e1;
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus {
+            border-color: #3B82F6;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background border-b border-outline-variant w-full fixed top-0 z-50">
+<div class="flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-on-background dark:text-on-background">CodeScope AI</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 hover:bg-surface-container-high transition-colors rounded text-primary" title="Help">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high transition-colors rounded text-primary" title="Settings">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex items-center justify-center px-gutter pt-16 pb-16">
+<!-- Login Panel (Bento-style Card) -->
+<div class="w-full max-w-[440px] bg-[#1E1E1E] border border-outline-variant rounded-lg p-xl flex flex-col gap-xl">
+<!-- Card Header -->
+<div class="flex flex-col gap-xs text-center">
+<h1 class="font-headline-lg text-headline-lg text-on-background">CodeScope AI</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">AI Powered Code Review Platform</p>
+</div>
+<!-- Login Form -->
+<form class="flex flex-col gap-lg" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="email">Enter Email</label>
+<input class="form-input w-full px-md py-sm rounded-lg font-body-md text-body-md" id="email" name="email" placeholder="developer@codescope.ai" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-sm">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="password">Enter Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<input class="form-input w-full px-md py-sm rounded-lg font-body-md text-body-md" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<button class="w-full bg-[#3B82F6] text-white py-md rounded-lg font-label-caps text-label-caps hover:bg-[#2563EB] transition-colors active:opacity-80" type="submit">
+                    LOGIN
+                </button>
+</form>
+<!-- Card Footer -->
+<div class="text-center pt-md border-t border-outline-variant">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Don't have an account? 
+                    <a class="text-primary font-bold hover:underline" href="#">Create Account</a>
+</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-background dark:bg-background border-t border-outline-variant w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-lg py-md max-w-container-max mx-auto gap-md">
+<div class="flex items-center gap-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CODESCOPE AI</span>
+<span class="font-label-sm text-label-sm text-secondary dark:text-secondary">© 2024 CodeScope AI. Technical Functionalism.</span>
+</div>
+<nav class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Status</a>
+</nav>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for button press
+        const loginBtn = document.querySelector('button[type="submit"]');
+        if (loginBtn) {
+            loginBtn.addEventListener('mousedown', () => {
+                loginBtn.classList.add('opacity-80');
+            });
+            loginBtn.addEventListener('mouseup', () => {
+                loginBtn.classList.remove('opacity-80');
+            });
+            loginBtn.addEventListener('mouseleave', () => {
+                loginBtn.classList.remove('opacity-80');
+            });
+        }
+
+        // Focus logic for input fields highlighting parent container logic if needed
+        const inputs = document.querySelectorAll('.form-input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.flex-col').querySelector('label').classList.replace('text-on-surface-variant', 'text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.flex-col').querySelector('label').classList.replace('text-primary', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

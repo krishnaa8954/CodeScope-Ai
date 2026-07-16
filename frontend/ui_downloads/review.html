@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CodeScope AI | Project Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#b7b5b4",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "background": "#131313",
+                    "on-tertiary-fixed": "#311400",
+                    "on-tertiary-container": "#461f00",
+                    "inverse-primary": "#005ac2",
+                    "primary-container": "#4d8eff",
+                    "on-secondary-fixed-variant": "#474746",
+                    "on-tertiary": "#502400",
+                    "surface-container-high": "#2a2a2a",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-primary-container": "#00285d",
+                    "surface-container-low": "#1c1b1b",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "on-error": "#690005",
+                    "secondary-fixed": "#e5e2e1",
+                    "on-secondary-fixed": "#1b1b1c",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-secondary": "#303030",
+                    "tertiary-container": "#df7412",
+                    "secondary": "#c8c6c5",
+                    "surface-tint": "#adc6ff",
+                    "tertiary-fixed": "#ffdcc6",
+                    "on-background": "#e5e2e1",
+                    "error-container": "#93000a",
+                    "on-primary-fixed-variant": "#004395",
+                    "surface-bright": "#393939",
+                    "inverse-surface": "#e5e2e1",
+                    "surface": "#131313",
+                    "inverse-on-surface": "#313030",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#424754",
+                    "surface-variant": "#353534",
+                    "on-primary": "#002e6a",
+                    "on-error-container": "#ffdad6",
+                    "surface-container": "#201f1f",
+                    "on-primary-fixed": "#001a42",
+                    "primary": "#3B82F6",
+                    "outline": "#8c909f",
+                    "on-surface-variant": "#c2c6d6",
+                    "secondary-container": "#474746",
+                    "on-surface": "#e5e2e1",
+                    "tertiary": "#ffb786",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "surface-dim": "#131313",
+                    "primary-fixed": "#d8e2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "sm": "8px",
+                    "container-max": "1440px",
+                    "gutter": "16px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "code-block": ["JetBrains Mono"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "code-block": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b1b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+        }
+
+        .terminal-cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { color: transparent }
+            50% { color: #3B82F6 }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-lg py-md max-w-container-max mx-auto bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-size: 28px;">biotech</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-on-surface">CodeScope AI</span>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<div class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Features</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">How It Works</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-md py-sm font-label-sm text-label-sm text-on-surface-variant border border-outline-variant hover:bg-surface-variant transition-all">Download PDF</button>
+<button class="px-md py-sm font-label-sm text-label-sm bg-primary text-on-primary hover:opacity-90 transition-all">Dashboard</button>
+</div>
+</div>
+</nav>
+<main class="flex-grow pt-2xl mt-xl px-lg max-w-container-max mx-auto w-full pb-2xl">
+<!-- Project Summary Panel -->
+<section class="w-full mb-xl">
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] p-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-lg">
+<div class="space-y-sm">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">AI PROJECT REVIEW</span>
+<h1 class="font-headline-lg text-headline-lg text-on-background">System Core: Horizon Alpha</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                        Technical audit and logic verification of the distributed ledger orchestration layer. Focus on concurrency safety and cryptographic entropy validation.
+                    </p>
+</div>
+<div class="flex flex-col items-end gap-sm">
+<div class="px-md py-xs border border-[#10B981] bg-[#10B981]/10 rounded-full flex items-center gap-sm">
+<span class="w-2 h-2 bg-[#10B981] rounded-full"></span>
+<span class="font-label-sm text-label-sm text-[#10B981]">Completed</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Analyzed on 2024-10-24</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Version 2.4.1-rc</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- AI Analysis Report Panel (Left/Large) -->
+<div class="lg:col-span-8 flex flex-col gap-xl">
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] flex flex-col h-full">
+<div class="px-xl py-md border-b border-[#2D2D2D] flex justify-between items-center bg-[#181818]">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">AI Analysis Report</h2>
+</div>
+<div class="flex gap-sm">
+<span class="w-3 h-3 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/40"></span>
+<span class="w-3 h-3 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/40"></span>
+<span class="w-3 h-3 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/40"></span>
+</div>
+</div>
+<div class="p-xl font-code-block text-code-block leading-relaxed custom-scrollbar overflow-y-auto max-h-[700px] bg-[#121212] m-md border border-[#2D2D2D]">
+<pre class="text-[#8c909f] whitespace-pre-wrap"><span class="text-primary font-bold">[SYSTEM_INIT]</span> Initializing CodeScope Neural Engine...
+<span class="text-primary font-bold">[SCANNING]</span> 142 source files detected (Total 42,891 LOC)
+<span class="text-primary font-bold">[PROCESS]</span> Running static analysis and deep-logic pattern recognition...
+
+<span class="text-white border-b border-[#2D2D2D] pb-1 block mb-2">--- SUMMARY OF FINDINGS ---</span>
+
+<span class="text-[#10B981]">[STRENGTH]</span> Codebase demonstrates high modularity and strict adherence to SOLID principles.
+<span class="text-[#EF4444]">[VULNERABILITY]</span> Potential race condition detected in <span class="bg-[#EF4444]/10 text-[#EF4444] px-1 italic">src/orchestrator/sync_worker.rs:88</span>
+  <span class="text-on-surface-variant">>> Thread safety issue when accessing the global state during re-sharding events.</span>
+
+<span class="text-primary">[REASONING]</span> The Mutex implementation at line 88 does not account for the recursive call in the recovery handler.
+<span class="text-primary">[SUGGESTION]</span> Replace with a ReentrantMutex or refactor the recovery handler to pass a state reference.
+
+<span class="text-white border-b border-[#2D2D2D] pb-1 block mb-2 mt-4">--- PERFORMANCE METRICS ---</span>
+
+<span class="text-on-surface-variant">Complexity Score:</span> <span class="text-primary">88/100</span> (Optimal)
+<span class="text-on-surface-variant">Maintainability Index:</span> <span class="text-primary">92/100</span> (Exceptional)
+<span class="text-on-surface-variant">Test Coverage:</span> <span class="text-[#10B981]">94.2%</span>
+
+<span class="text-white border-b border-[#2D2D2D] pb-1 block mb-2 mt-4">--- AI OPTIMIZATION RECOMMENDATIONS ---</span>
+
+1. <span class="text-on-surface">Memory Allocation:</span> The byte buffer in <span class="italic">net_io.c</span> is statically allocated. Consider dynamic pooling for high-throughput scenarios.
+2. <span class="text-on-surface">Hot Path:</span> Logic at <span class="italic">crypto/hash_verify.py:212</span> accounts for 14% of CPU cycles. GPU acceleration via CUDA recommended for production load.
+3. <span class="text-on-surface">Redundancy:</span> Found 12 duplicated logic blocks in utility headers. Suggest consolidation to <span class="italic">lib/common/utils</span>.
+
+<span class="text-primary font-bold">[EOF]</span> Report generation complete.
+<span class="terminal-cursor"></span>
+</pre>
+</div>
+</div>
+</div>
+<!-- Sidebar Widgets (Right/Smaller) -->
+<div class="lg:col-span-4 flex flex-col gap-xl">
+<!-- AI Suggestions Card -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] p-lg flex flex-col gap-md">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Critical Tags</h3>
+<div class="flex flex-wrap gap-sm">
+<span class="px-sm py-1 font-label-caps text-label-caps bg-primary/15 border border-primary text-primary">THREAD_SAFETY</span>
+<span class="px-sm py-1 font-label-caps text-label-caps bg-primary/15 border border-primary text-primary">LOGIC_FLOW</span>
+<span class="px-sm py-1 font-label-caps text-label-caps bg-primary/15 border border-primary text-primary">OPTIMIZATION</span>
+<span class="px-sm py-1 font-label-caps text-label-caps bg-primary/15 border border-primary text-primary">REFACTOR</span>
+</div>
+</div>
+<!-- Review Statistics -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] overflow-hidden">
+<div class="p-lg border-b border-[#2D2D2D]">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Review Stats</h3>
+</div>
+<div class="divide-y divide-[#2D2D2D]">
+<div class="p-lg flex justify-between items-center hover:bg-[#252525] transition-colors">
+<span class="font-body-md text-body-md text-on-surface-variant">Security Alerts</span>
+<span class="font-headline-sm text-headline-sm text-[#EF4444]">03</span>
+</div>
+<div class="p-lg flex justify-between items-center hover:bg-[#252525] transition-colors">
+<span class="font-body-md text-body-md text-on-surface-variant">Refactor Ops</span>
+<span class="font-headline-sm text-headline-sm text-primary">12</span>
+</div>
+<div class="p-lg flex justify-between items-center hover:bg-[#252525] transition-colors">
+<span class="font-body-md text-body-md text-on-surface-variant">Build Status</span>
+<span class="font-headline-sm text-headline-sm text-[#10B981]">Pass</span>
+</div>
+</div>
+</div>
+<!-- Infrastructure Visual -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] p-lg">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-md">System Architecture Snapshot</h3>
+<div class="relative w-full aspect-video border border-[#2D2D2D] bg-[#121212] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#3B82F6 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="relative z-10 flex flex-col items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-size: 48px;">hub</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Distributed Cluster</span>
+</div>
+</div>
+<button class="w-full mt-md py-sm border border-[#2D2D2D] font-label-sm text-label-sm text-on-surface hover:border-primary hover:text-primary transition-all">
+                        View Logic Map
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full px-lg py-xl flex flex-col md:flex-row justify-between items-center gap-md max-w-container-max mx-auto bg-surface dark:bg-surface border-t border-outline-variant dark:border-outline-variant">
+<div class="flex flex-col gap-xs items-center md:items-start">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-on-surface">CodeScope AI</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 CodeScope AI. Technical Functionalism for Engineers.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface underline transition-all duration-200" href="#">Documentation</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface underline transition-all duration-200" href="#">API</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface underline transition-all duration-200" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface underline transition-all duration-200" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface underline transition-all duration-200" href="#">Github</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface underline transition-all duration-200" href="#">Support</a>
+</div>
+</footer>
+<script>
+        // Micro-interaction: Smooth hover states for primary panels
+        const panels = document.querySelectorAll('.bg-\\[\\#1E1E1E\\]');
+        panels.forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.borderColor = '#3B82F6';
+                panel.style.transition = 'border-color 0.3s ease';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.borderColor = '#2D2D2D';
+            });
+        });
+
+        // Simulating log data streaming effect
+        const logContainer = document.querySelector('pre');
+        const originalText = logContainer.innerHTML;
+        // Logic would go here to animate the text if desired
+    </script>
+</body></html>

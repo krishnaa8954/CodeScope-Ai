@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register | CodeScope AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e5e2e1",
+                    "surface-variant": "#353534",
+                    "on-tertiary": "#502400",
+                    "tertiary-container": "#df7412",
+                    "on-secondary": "#303030",
+                    "on-primary-fixed-variant": "#004395",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary-fixed": "#311400",
+                    "on-surface": "#e5e2e1",
+                    "surface-dim": "#131313",
+                    "on-secondary-fixed": "#1b1b1c",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "on-surface-variant": "#c2c6d6",
+                    "on-secondary-container": "#b7b5b4",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "surface-bright": "#393939",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-primary-fixed": "#001a42",
+                    "inverse-surface": "#e5e2e1",
+                    "primary": "#adc6ff",
+                    "tertiary": "#ffb786",
+                    "outline-variant": "#424754",
+                    "background": "#131313",
+                    "outline": "#8c909f",
+                    "on-tertiary-container": "#461f00",
+                    "on-error-container": "#ffdad6",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary-fixed-variant": "#474746",
+                    "surface-tint": "#adc6ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "secondary": "#c8c6c5",
+                    "error-container": "#93000a",
+                    "primary-fixed": "#d8e2ff",
+                    "secondary-container": "#474746",
+                    "on-primary-container": "#00285d",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-container-low": "#1c1b1b",
+                    "on-error": "#690005",
+                    "on-primary": "#002e6a",
+                    "surface": "#131313",
+                    "surface-container": "#201f1f",
+                    "primary-container": "#4d8eff",
+                    "inverse-on-surface": "#313030",
+                    "on-background": "#e5e2e1",
+                    "inverse-primary": "#005ac2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "gutter": "16px",
+                    "xs": "4px",
+                    "container-max": "1440px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "2xl": "48px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "code-block": ["JetBrains Mono"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "code-block": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            font-family: 'Inter', sans-serif;
+        }
+        .technical-border {
+            border: 1px solid #2D2D2D;
+        }
+        .active-input:focus {
+            border-color: #3B82F6;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background border-b border-outline-variant docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-on-background dark:text-on-background">CodeScope AI</span>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:bg-surface-container-high transition-colors px-md py-xs rounded" href="#">Dashboard</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:bg-surface-container-high transition-colors px-md py-xs rounded" href="#">Reviews</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:bg-surface-container-high transition-colors px-md py-xs rounded" href="#">Enterprise</a>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary">help</span>
+</button>
+<button class="p-xs rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center px-gutter py-2xl relative overflow-hidden">
+<!-- Structural Background Element -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#3B82F6 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+<!-- Registration Card -->
+<div class="w-full max-w-[440px] bg-[#1E1E1E] technical-border p-xl shadow-2xl relative z-10 rounded-lg">
+<div class="mb-xl">
+<h1 class="font-headline-lg text-headline-lg mb-xs tracking-tight">CodeScope AI</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Create your account</p>
+</div>
+<form action="#" class="space-y-lg" onsubmit="event.preventDefault()">
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant block">NAME</label>
+<input class="w-full bg-[#121212] technical-border active-input px-md py-sm font-body-md text-body-md text-on-surface placeholder:text-outline-variant rounded" placeholder="Enter Name" type="text"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant block">EMAIL ADDRESS</label>
+<input class="w-full bg-[#121212] technical-border active-input px-md py-sm font-body-md text-body-md text-on-surface placeholder:text-outline-variant rounded" placeholder="Enter Email" type="email"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant block">PASSWORD</label>
+<input class="w-full bg-[#121212] technical-border active-input px-md py-sm font-body-md text-body-md text-on-surface placeholder:text-outline-variant rounded" placeholder="Enter Password" type="password"/>
+</div>
+<div class="pt-md">
+<button class="w-full bg-[#3B82F6] hover:bg-[#2563EB] active:opacity-80 transition-all text-white font-label-sm text-label-sm py-md font-bold tracking-widest rounded-lg" type="submit">
+                        CREATE ACCOUNT
+                    </button>
+</div>
+</form>
+<div class="mt-xl text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Already have an account? 
+                    <a class="text-primary hover:underline transition-all" href="#">Login</a>
+</p>
+</div>
+<!-- Technical Detail Ornament -->
+<div class="absolute top-0 right-0 p-sm opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[12px]">developer_board</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-background dark:bg-background border-t border-outline-variant docked full-width bottom-0">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-lg py-md max-w-container-max mx-auto gap-md">
+<div class="flex flex-col md:flex-row items-center gap-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CODESCOPE_SYSTEM_V4</span>
+<span class="font-label-sm text-label-sm text-secondary dark:text-secondary">© 2024 CodeScope AI. Technical Functionalism.</span>
+</div>
+<div class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Status</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for input focus states
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.replace('text-on-surface-variant', 'text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.replace('text-primary', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

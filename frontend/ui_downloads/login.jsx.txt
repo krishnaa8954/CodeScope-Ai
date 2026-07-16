@@ -1,0 +1,92 @@
+{/* TopAppBar */}
+<header className="bg-background dark:bg-background border-b border-outline-variant w-full fixed top-0 z-50">
+<div className="flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto h-16">
+<div className="flex items-center gap-md">
+<span className="font-headline-md text-headline-md font-bold text-on-background dark:text-on-background">CodeScope AI</span>
+</div>
+<div className="flex items-center gap-sm">
+<button className="p-2 hover:bg-surface-container-high transition-colors rounded text-primary" title="Help">
+<span className="material-symbols-outlined">help</span>
+</button>
+<button className="p-2 hover:bg-surface-container-high transition-colors rounded text-primary" title="Settings">
+<span className="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+{/* Main Content Area */}
+<main className="flex-grow flex items-center justify-center px-gutter pt-16 pb-16">
+{/* Login Panel (Bento-style Card) */}
+<div className="w-full max-w-[440px] bg-[#1E1E1E] border border-outline-variant rounded-lg p-xl flex flex-col gap-xl">
+{/* Card Header */}
+<div className="flex flex-col gap-xs text-center">
+<h1 className="font-headline-lg text-headline-lg text-on-background">CodeScope AI</h1>
+<p className="font-body-md text-body-md text-on-surface-variant">AI Powered Code Review Platform</p>
+</div>
+{/* Login Form */}
+<form className="flex flex-col gap-lg" onsubmit="event.preventDefault();">
+<div className="flex flex-col gap-sm">
+<label className="font-label-sm text-label-sm text-on-surface-variant" htmlFor="email">Enter Email</label>
+<input className="form-input w-full px-md py-sm rounded-lg font-body-md text-body-md" id="email" name="email" placeholder="developer@codescope.ai" required="" type="email"/>
+</div>
+<div className="flex flex-col gap-sm">
+<div className="flex justify-between items-center">
+<label className="font-label-sm text-label-sm text-on-surface-variant" htmlFor="password">Enter Password</label>
+<a className="font-label-sm text-label-sm text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<input className="form-input w-full px-md py-sm rounded-lg font-body-md text-body-md" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<button className="w-full bg-[#3B82F6] text-white py-md rounded-lg font-label-caps text-label-caps hover:bg-[#2563EB] transition-colors active:opacity-80" type="submit">
+                    LOGIN
+                </button>
+</form>
+{/* Card Footer */}
+<div className="text-center pt-md border-t border-outline-variant">
+<p className="font-body-md text-body-md text-on-surface-variant">
+                    Don't have an account? 
+                    <a className="text-primary font-bold hover:underline" href="#">Create Account</a>
+</p>
+</div>
+</div>
+</main>
+{/* Footer */}
+<footer className="bg-background dark:bg-background border-t border-outline-variant w-full mt-auto">
+<div className="flex flex-col md:flex-row justify-between items-center w-full px-lg py-md max-w-container-max mx-auto gap-md">
+<div className="flex items-center gap-md">
+<span className="font-label-caps text-label-caps text-on-surface-variant">CODESCOPE AI</span>
+<span className="font-label-sm text-label-sm text-secondary dark:text-secondary">© 2024 CodeScope AI. Technical Functionalism.</span>
+</div>
+<nav className="flex gap-lg">
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Status</a>
+</nav>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for button press
+        const loginBtn = document.querySelector('button[type="submit"]');
+        if (loginBtn) {
+            loginBtn.addEventListener('mousedown', () => {
+                loginBtn.classList.add('opacity-80');
+            });
+            loginBtn.addEventListener('mouseup', () => {
+                loginBtn.classList.remove('opacity-80');
+            });
+            loginBtn.addEventListener('mouseleave', () => {
+                loginBtn.classList.remove('opacity-80');
+            });
+        }
+
+        // Focus logic for input fields highlighting parent container logic if needed
+        const inputs = document.querySelectorAll('.form-input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.flex-col').querySelector('label').classList.replace('text-on-surface-variant', 'text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.flex-col').querySelector('label').classList.replace('text-primary', 'text-on-surface-variant');
+            });
+        });
+    </script>

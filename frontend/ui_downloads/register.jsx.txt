@@ -1,0 +1,88 @@
+{/* TopAppBar */}
+<header className="bg-background dark:bg-background border-b border-outline-variant docked full-width top-0 z-50">
+<div className="flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto h-16">
+<div className="flex items-center gap-md">
+<span className="font-headline-md text-headline-md font-bold text-on-background dark:text-on-background">CodeScope AI</span>
+</div>
+<div className="hidden md:flex items-center gap-lg">
+<a className="font-headline-sm text-headline-sm text-on-surface-variant hover:bg-surface-container-high transition-colors px-md py-xs rounded" href="#">Dashboard</a>
+<a className="font-headline-sm text-headline-sm text-on-surface-variant hover:bg-surface-container-high transition-colors px-md py-xs rounded" href="#">Reviews</a>
+<a className="font-headline-sm text-headline-sm text-on-surface-variant hover:bg-surface-container-high transition-colors px-md py-xs rounded" href="#">Enterprise</a>
+</div>
+<div className="flex items-center gap-sm">
+<button className="p-xs rounded hover:bg-surface-container-high transition-colors">
+<span className="material-symbols-outlined text-primary">help</span>
+</button>
+<button className="p-xs rounded hover:bg-surface-container-high transition-colors">
+<span className="material-symbols-outlined text-primary">settings</span>
+</button>
+</div>
+</div>
+</header>
+{/* Main Content Canvas */}
+<main className="flex-grow flex items-center justify-center px-gutter py-2xl relative overflow-hidden">
+{/* Structural Background Element */}
+<div className="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#3B82F6 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+{/* Registration Card */}
+<div className="w-full max-w-[440px] bg-[#1E1E1E] technical-border p-xl shadow-2xl relative z-10 rounded-lg">
+<div className="mb-xl">
+<h1 className="font-headline-lg text-headline-lg mb-xs tracking-tight">CodeScope AI</h1>
+<p className="font-body-lg text-body-lg text-on-surface-variant">Create your account</p>
+</div>
+<form action="#" className="space-y-lg" onsubmit="event.preventDefault()">
+<div className="space-y-sm">
+<label className="font-label-caps text-label-caps text-on-surface-variant block">NAME</label>
+<input className="w-full bg-[#121212] technical-border active-input px-md py-sm font-body-md text-body-md text-on-surface placeholder:text-outline-variant rounded" placeholder="Enter Name" type="text"/>
+</div>
+<div className="space-y-sm">
+<label className="font-label-caps text-label-caps text-on-surface-variant block">EMAIL ADDRESS</label>
+<input className="w-full bg-[#121212] technical-border active-input px-md py-sm font-body-md text-body-md text-on-surface placeholder:text-outline-variant rounded" placeholder="Enter Email" type="email"/>
+</div>
+<div className="space-y-sm">
+<label className="font-label-caps text-label-caps text-on-surface-variant block">PASSWORD</label>
+<input className="w-full bg-[#121212] technical-border active-input px-md py-sm font-body-md text-body-md text-on-surface placeholder:text-outline-variant rounded" placeholder="Enter Password" type="password"/>
+</div>
+<div className="pt-md">
+<button className="w-full bg-[#3B82F6] hover:bg-[#2563EB] active:opacity-80 transition-all text-white font-label-sm text-label-sm py-md font-bold tracking-widest rounded-lg" type="submit">
+                        CREATE ACCOUNT
+                    </button>
+</div>
+</form>
+<div className="mt-xl text-center">
+<p className="font-body-md text-body-md text-on-surface-variant">
+                    Already have an account? 
+                    <a className="text-primary hover:underline transition-all" href="#">Login</a>
+</p>
+</div>
+{/* Technical Detail Ornament */}
+<div className="absolute top-0 right-0 p-sm opacity-20 pointer-events-none">
+<span className="material-symbols-outlined text-[12px]">developer_board</span>
+</div>
+</div>
+</main>
+{/* Footer */}
+<footer className="bg-background dark:bg-background border-t border-outline-variant docked full-width bottom-0">
+<div className="flex flex-col md:flex-row justify-between items-center w-full px-lg py-md max-w-container-max mx-auto gap-md">
+<div className="flex flex-col md:flex-row items-center gap-md">
+<span className="font-label-caps text-label-caps text-on-surface-variant">CODESCOPE_SYSTEM_V4</span>
+<span className="font-label-sm text-label-sm text-secondary dark:text-secondary">© 2024 CodeScope AI. Technical Functionalism.</span>
+</div>
+<div className="flex gap-lg">
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+<a className="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Status</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for input focus states
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.replace('text-on-surface-variant', 'text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.replace('text-primary', 'text-on-surface-variant');
+            });
+        });
+    </script>
