@@ -68,6 +68,7 @@ function Dashboard() {
       alert("Please Select ZIP File");
       return;
     }
+    alert("Please wait for 2 minutes for generating review");
     try {
       setUploading(true);
       const formData = new FormData();
@@ -95,6 +96,7 @@ function Dashboard() {
       alert("Please Enter a Valid GitHub Repository URL");
       return;
     }
+    alert("Please wait for 2 minutes for generating review");
     try {
       setReviewingGithub(true);
       await api.post(`/project/${projectId}/github-review`, { githubUrl: githubUrl.trim() });
@@ -164,6 +166,23 @@ function Dashboard() {
       {/* Main Content Area */}
       <main className="ml-[240px] pt-16 min-h-screen">
         <div className="p-lg max-w-7xl mx-auto space-y-gutter">
+          {(uploading || reviewingGithub) && (
+            <div className="bg-surface-container-high border border-primary/40 p-md rounded-lg flex items-center justify-between gap-md animate-pulse shadow-lg">
+              <div className="flex items-center gap-md">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 border border-primary/20">
+                  <span className="material-symbols-outlined text-primary animate-spin text-xl">sync</span>
+                </div>
+                <div>
+                  <h4 className="text-primary font-bold text-body-lg">Generating AI Review...</h4>
+                  <p className="text-on-surface-variant text-sm mt-0.5">Please wait for about 2 minutes while CodeScope AI analyzes the code and generates your review.</p>
+                </div>
+              </div>
+              <div className="text-right font-code-md text-xs text-primary/80 hidden sm:block bg-primary/10 border border-primary/20 px-sm py-1 rounded">
+                ESTIMATED TIME: ~120s
+              </div>
+            </div>
+          )}
+
           {/* Welcome Header */}
           <section className="py-10">
             <h2 className="font-display text-display text-primary">Dashboard Overview</h2>
