@@ -8,6 +8,8 @@ function Review() {
 
   const [project, setProject] = useState(null);
   const [review, setReview] = useState("");
+  const [readme, setReadme] = useState("");
+  const [activeTab, setActiveTab] = useState("review");
   const [reviewStatus, setReviewStatus] = useState("");
   const [reviewedAt, setReviewedAt] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,8 +25,15 @@ function Review() {
 
         setProject(projectResponse.data);
         setReview(reviewResponse.data.review || "");
+        const readmeContent = reviewResponse.data.readme || "";
+        setReadme(readmeContent);
         setReviewStatus(reviewResponse.data.reviewStatus || "");
         setReviewedAt(reviewResponse.data.reviewedAt || null);
+        if (readmeContent.trim().length > 0) {
+          setActiveTab("readme");
+        } else {
+          setActiveTab("review");
+        }
       } catch (error) {
         setError(
           error.response?.data?.message ||
@@ -153,12 +162,43 @@ function Review() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-xl">
           {/* AI Analysis Report Panel */}
           <div className="lg:col-span-8 flex flex-col gap-xl">
-            {review ? (
+            {readme && (
+              <div className="flex gap-sm mb-md bg-[#181818] p-xs border border-[#2D2D2D] rounded-lg w-fit">
+                <button
+                  onClick={() => setActiveTab("readme")}
+                  className={`px-lg py-sm font-bold transition-all duration-200 font-label-sm text-label-sm rounded-md flex items-center gap-xs cursor-pointer ${
+                    activeTab === "readme"
+                      ? "bg-primary text-on-primary shadow-lg"
+                      : "text-on-surface-variant hover:text-on-surface hover:bg-[#252525]"
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-sm">description</span>
+                  README Documentation
+                </button>
+                <button
+                  onClick={() => setActiveTab("review")}
+                  className={`px-lg py-sm font-bold transition-all duration-200 font-label-sm text-label-sm rounded-md flex items-center gap-xs cursor-pointer ${
+                    activeTab === "review"
+                      ? "bg-primary text-on-primary shadow-lg"
+                      : "text-on-surface-variant hover:text-on-surface hover:bg-[#252525]"
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-sm">psychology</span>
+                  AI Code Review
+                </button>
+              </div>
+            )}
+
+            {review || readme ? (
               <div className="bg-[#1E1E1E] border border-[#2D2D2D] flex flex-col h-full hover:border-primary transition-colors duration-300 rounded-lg overflow-hidden">
                 <div className="px-xl py-md border-b border-[#2D2D2D] flex justify-between items-center bg-[#181818]">
                   <div className="flex items-center gap-sm">
-                    <span className="material-symbols-outlined text-primary">analytics</span>
-                    <h2 className="font-headline-sm text-headline-sm text-on-surface">AI Analysis Report</h2>
+                    <span className="material-symbols-outlined text-primary">
+                      {activeTab === "readme" ? "description" : "analytics"}
+                    </span>
+                    <h2 className="font-headline-sm text-headline-sm text-on-surface">
+                      {activeTab === "readme" ? "Project README" : "AI Analysis Report"}
+                    </h2>
                   </div>
                   <div className="flex gap-sm">
                     <span className="w-3 h-3 rounded-full bg-primary/20 border border-primary/40"></span>
@@ -168,7 +208,7 @@ function Review() {
                 </div>
                 <div className="p-xl font-code-block text-code-block leading-relaxed custom-scrollbar overflow-y-auto max-h-[700px] bg-[#121212] m-md border border-[#2D2D2D] rounded-lg">
                   <pre className="text-on-surface-variant whitespace-pre-wrap font-code-block">
-                    {review}
+                    {activeTab === "readme" ? readme : review}
                   </pre>
                 </div>
               </div>
