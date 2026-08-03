@@ -1,20 +1,20 @@
-const Project=require('../models/Projects');
+const Project = require('../models/Projects');
 const {
     generateProjectSummary,
     generateArchitectureReview,
     generateCodeQualityReview,
     generateSecurityPerformanceReview,
     generateImprovementReview
-} = require("../service/ollamaService");
+} = require("../service/gemini");
 const {
-drawTitle,
-drawProjectInfo,
-drawHeading,
-drawParagraph,
-drawFooter,
-getMonospacedFont
+    drawTitle,
+    drawProjectInfo,
+    drawHeading,
+    drawParagraph,
+    drawFooter,
+    getMonospacedFont
 } = require("../utils/pdfHelper");
-const { parseReview } =require("../utils/reviewParser");
+const { parseReview } = require("../utils/reviewParser");
 const AdmZip = require("adm-zip");
 const fs = require("fs");
 const path = require("path");
@@ -22,41 +22,40 @@ const simpleGit = require("simple-git");
  
 const git = simpleGit();
 
-const createProject=async(req,res)=>{
-    try{
-        const {title, description, language, githubUrl}=req.body;
-        if(!title){
+// Helper delay function
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const createProject = async (req, res) => {
+    try {
+        const { title, description, language, githubUrl } = req.body;
+        if (!title) {
             return res.status(400).json({
-                message:"Project title is required"
+                message: "Project title is required"
             });
         }
-        const project=new Project({
+        const project = new Project({
             title,
             description,
             language,
             githubUrl,
-            owner:req.user.id
+            owner: req.user.id
         });
         await project.save();
         return res.status(201).json({
-       message: "Project created successfully",
-        project: project
-});
-    }
-    catch(error){
+            message: "Project created successfully",
+            project: project
+        });
+    } catch (error) {
         return res.status(500).json({
-            message:error.message
-        })
+            message: error.message
+        });
     }
-    }
-
-
+};
 
 const getMyProjects = async (req, res) => {
     console.log(req.user);
 
     try {
-
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 5;
         const skip = (page - 1) * limit;
@@ -71,19 +70,14 @@ const getMyProjects = async (req, res) => {
         res.status(200).json(projects);
 
     } catch (error) {
-
         console.log(error);
-
         res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 const updateProject = async (req, res) => {
-     
     try {
         const { title, description, githubUrl } = req.body;
         const project = await Project.findById(req.params.id);
@@ -105,17 +99,12 @@ const updateProject = async (req, res) => {
             message: "Project updated successfully",
             project
         });
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
 };
-
-
 
 const deleteProject = async (req, res) => {
     try {
@@ -136,95 +125,98 @@ const deleteProject = async (req, res) => {
         return res.status(200).json({
             message: "Project deleted successfully"
         });
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
-const readFiles = (folderPath) => {
 
+// Helper function to generate a clean folder tree layout (skipping lock files)
+const getFolderTree = (dirPath, prefix = "") => {
+    let treeStr = "";
+    try {
+        const skipDirs = new Set([
+            "node_modules", ".git", "__pycache__", ".next", "dist", "build",
+            ".venv", "venv", "env", ".env", ".idea", ".vscode", ".gradle",
+            "target", "bin", "obj", ".cache", "coverage", ".tox", "vendor"
+        ]);
+
+        const skipFiles = new Set([
+            "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "composer.lock", "poetry.lock",
+            "bun.lockb", "Cargo.lock", "Gemfile.lock"
+        ]);
+
+        const items = fs.readdirSync(dirPath, { withFileTypes: true });
+        
+        const filteredItems = items.filter(item => {
+            if (item.isDirectory() && skipDirs.has(item.name)) return false;
+            if (item.isFile() && skipFiles.has(item.name)) return false;
+            return true;
+        });
+
+        filteredItems.forEach((item, index) => {
+            const isLast = index === filteredItems.length - 1;
+            const pointer = isLast ? "└── " : "├── ";
+            treeStr += `${prefix}${pointer}${item.name}\n`;
+
+            if (item.isDirectory()) {
+                const extension = isLast ? "    " : "│   ";
+                treeStr += getFolderTree(path.join(dirPath, item.name), prefix + extension);
+            }
+        });
+    } catch (err) {
+        console.error("Error generating folder tree:", err);
+    }
+    return treeStr;
+};
+
+const readFiles = (folderPath) => {
     let allCode = "";
 
-    // Directories to skip
     const skipDirs = new Set([
         "node_modules", ".git", "__pycache__", ".next", "dist", "build",
         ".venv", "venv", "env", ".env", ".idea", ".vscode", ".gradle",
         "target", "bin", "obj", ".cache", "coverage", ".tox", "vendor"
     ]);
 
-    // Supported file extensions for all major languages
+    const skipFiles = new Set([
+        "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "composer.lock", "poetry.lock",
+        "bun.lockb", "Cargo.lock", "Gemfile.lock"
+    ]);
+
     const supportedExtensions = new Set([
-        // JavaScript / TypeScript
         ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs",
-        // Python
         ".py", ".pyw",
-        // Java / Kotlin
         ".java", ".kt", ".kts",
-        // C / C++
         ".c", ".h", ".cpp", ".hpp", ".cc", ".cxx",
-        // C#
-        ".cs",
-        // Go
-        ".go",
-        // Rust
-        ".rs",
-        // Ruby
-        ".rb",
-        // PHP
-        ".php",
-        // Swift
-        ".swift",
-        // Dart / Flutter
-        ".dart",
-        // HTML / CSS
+        ".cs", ".go", ".rs", ".rb", ".php", ".swift", ".dart",
         ".html", ".htm", ".css", ".scss", ".sass", ".less",
-        // Config / Data
         ".json", ".yaml", ".yml", ".toml", ".xml", ".env.example",
-        // Shell
-        ".sh", ".bash",
-        // SQL
-        ".sql",
-        // Markdown (for README)
-        ".md",
+        ".sh", ".bash", ".sql", ".md",
     ]);
 
     const files = fs.readdirSync(folderPath);
 
     for (const file of files) {
-
         const filePath = path.join(folderPath, file);
         const stats = fs.statSync(filePath);
 
         if (stats.isDirectory()) {
-
-            // Skip junk directories
             if (skipDirs.has(file)) continue;
-
             allCode += readFiles(filePath);
-
         } else {
-
+            if (skipFiles.has(file)) continue;
             const ext = path.extname(file).toLowerCase();
 
             if (supportedExtensions.has(ext)) {
-
-                // Skip very large files (> 100KB) to avoid overwhelming the AI
-                if (stats.size > 100 * 1024) continue;
-
+                if (stats.size > 50 * 1024) continue;
                 const content = fs.readFileSync(filePath, "utf8");
-
                 allCode += `\n\n===== ${filePath} =====\n`;
                 allCode += content;
-
             }
         }
     }
-
     return allCode;
 };
 
@@ -262,7 +254,6 @@ const uploadProject = async (req, res) => {
     console.log("UPLOAD API HIT");
 
     try {
-
         if (!req.file) {
             return res.status(400).json({
                 message: "Please upload a ZIP file"
@@ -270,7 +261,6 @@ const uploadProject = async (req, res) => {
         }
 
         const zip = new AdmZip(req.file.path);
-
         const extractPath = path.join(
             "extracted",
             path.parse(req.file.filename).name
@@ -282,8 +272,15 @@ const uploadProject = async (req, res) => {
 
         zip.extractAllTo(extractPath, true);
 
-        const code = readFiles(extractPath);
         const readmeContent = findReadmeContentRecursive(extractPath) || "";
+        const folderTree = getFolderTree(extractPath);
+
+        const code = `
+        PROJECT STRUCTURE
+            ${folderTree}
+        ========================================
+      PROJECT SOURCE CODE
+      ${readFiles(extractPath)}`;
 
         console.log("CODE LENGTH:", code.length);
 
@@ -301,48 +298,23 @@ const uploadProject = async (req, res) => {
             language: project.language
         };
 
-             const [
-    summary,
-    architecture,
-    quality,
-    security,
-    improvement
-                ] = await Promise.all([
-    generateProjectSummary(code, projectInfo),
-    generateArchitectureReview(code),
-    generateCodeQualityReview(code),
-    generateSecurityPerformanceReview(code),
-    generateImprovementReview(code)
-]);
-        const review = `
-${summary}
+        // Single optimized call to avoid 429 rate limits
+        console.log("Generating Complete AI Review...");
+        const review = await generateProjectSummary(code, projectInfo);
 
-${architecture}
-
-${quality}
-
-${security}
-
-${improvement}
-`;
-
-        console.log("AI REVIEW:");
-        console.log(review);
+        console.log("AI REVIEW GENERATED SUCCESSFULLY");
 
         project.review = review;
         project.reviewStatus = "Completed";
         project.reviewedAt = new Date();
         project.readme = readmeContent;
 
-      project.reviewHistory.push({
+        project.reviewHistory.push({
+            version: project.reviewHistory.length + 1,
+            review: review,
+            reviewedAt: new Date()
+        });
 
-    version: project.reviewHistory.length + 1,
-
-    review: review,
-
-    reviewedAt: new Date()
-
-});
         await project.save();
         console.log("PROJECT SAVED");
 
@@ -352,22 +324,17 @@ ${improvement}
         });
 
     } catch (error) {
-
-        console.log(error);
-
+        console.log("Upload Project Error:", error);
         return res.status(500).json({
             message: error.message
         });
-
     }
 };
 
 const reviewGithubProject = async (req, res) => {
-
     let clonePath;
 
     try {
-
         const { githubUrl } = req.body;
 
         if (!githubUrl) {
@@ -402,10 +369,18 @@ const reviewGithubProject = async (req, res) => {
         console.log("Cloning Repository...");
 
         await git.clone(githubUrl, clonePath);
-
         console.log("Repository Cloned Successfully");
 
-        const code = readFiles(clonePath);
+        const folderTree = getFolderTree(clonePath);
+        const rawCode = readFiles(clonePath);
+        
+        const code = `
+        PROJECT STRUCTURE
+            ${folderTree}
+        ========================================
+      PROJECT SOURCE CODE
+      ${rawCode}`;
+
         const readmeContent = findReadmeContentRecursive(clonePath) || "";
 
         console.log("Generating AI Review...");
@@ -430,31 +405,8 @@ const reviewGithubProject = async (req, res) => {
             language: project.language
         };
 
-        const [
-            summary,
-            architecture,
-            quality,
-            security,
-            improvement
-        ] = await Promise.all([
-            generateProjectSummary(code, projectInfo),
-            generateArchitectureReview(code),
-            generateCodeQualityReview(code),
-            generateSecurityPerformanceReview(code),
-            generateImprovementReview(code)
-        ]);
-
-        const review = `
-${summary}
-
-${architecture}
-
-${quality}
-
-${security}
-
-${improvement}
-`;
+        // Single optimized call to prevent 429 errors
+        const review = await generateProjectSummary(code, projectInfo);
 
         project.review = review;
         project.reviewStatus = "Completed";
@@ -468,7 +420,6 @@ ${improvement}
         });
 
         await project.save();
-
         console.log("GitHub Review Saved Successfully");
 
         return res.status(200).json({
@@ -479,34 +430,25 @@ ${improvement}
         });
 
     } catch (error) {
-
-        console.error("GitHub Review Error :", error.message);
-
+        console.error("GitHub Review Error :", error);
         return res.status(500).json({
             success: false,
             message: error.message
         });
 
     } finally {
-
         if (clonePath && fs.existsSync(clonePath)) {
-
             await fs.promises.rm(clonePath, {
                 recursive: true,
                 force: true
             });
-
             console.log("Temporary GitHub Folder Deleted");
-
         }
-
     }
-
 };
+
 const getProjectById = async (req, res) => {
-
     try {
-
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -522,21 +464,15 @@ const getProjectById = async (req, res) => {
         }
 
         return res.status(200).json(project);
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 const getReview = async (req, res) => {
-
     try {
-
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -557,20 +493,15 @@ const getReview = async (req, res) => {
             reviewStatus: project.reviewStatus,
             reviewedAt: project.reviewedAt
         });
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
 };
  
 const getReviewHistory = async (req, res) => {
-
     try {
-
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -588,17 +519,12 @@ const getReviewHistory = async (req, res) => {
         return res.status(200).json({
             history: project.reviewHistory.reverse()
         });
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
-
 
 const cleanText = (text) => {
     if (!text) return "";
@@ -632,9 +558,7 @@ const cleanText = (text) => {
 };
 
 const downloadReviewPDF = async (req, res) => {
-
     try {
-
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -650,16 +574,12 @@ const downloadReviewPDF = async (req, res) => {
         }
 
         const PDFDocument = require("pdfkit");
-
         const doc = new PDFDocument({
             margin: 50,
             size: "A4"
         });
 
-        res.setHeader(
-            "Content-Type",
-            "application/pdf"
-        );
+        res.setHeader("Content-Type", "application/pdf");
 
         const safeTitle = (project.title || "project-review").replace(/[^\w\s-]/g, "").trim();
         res.setHeader(
@@ -668,58 +588,37 @@ const downloadReviewPDF = async (req, res) => {
         );
 
         doc.pipe(res);
-
         
         drawTitle(doc);
-
-    
         drawProjectInfo(doc, project);
 
-        // 1. Draw AI Code Review
+        // 1. Draw AI Code Review cleanly without undefined parser crashes
         if (project.review && project.review.trim().length > 0) {
             const cleanReview = cleanText(project.review);
-            const sections = parseReview(cleanReview);
-
-            Object.entries(sections).forEach(([heading, content]) => {
-                drawHeading(doc, heading);
-                drawParagraph(doc, content.join("\n"));
-            });
+            drawHeading(doc, "AI Code Review Report");
+            drawParagraph(doc, cleanReview);
         }
 
         // 2. Draw Project README (if it exists)
         if (project.readme && project.readme.trim().length > 0) {
             doc.addPage();
             drawHeading(doc, "Project README Documentation");
-            
             const cleanReadme = cleanText(project.readme);
-            const sections = parseReview(cleanReadme);
-
-            Object.entries(sections).forEach(([heading, content]) => {
-                const displayHeading = heading === "Introduction" ? "README Introduction" : heading;
-                drawHeading(doc, displayHeading);
-                drawParagraph(doc, content.join("\n"));
-            });
+            drawParagraph(doc, cleanReadme);
         }
 
         drawFooter(doc);
-
         doc.end();
 
-    }
-
-    catch (error) {
-
+    } catch (error) {
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
+
 const getDashboardStats = async (req, res) => {
-
     try {
-
         const totalProjects = await Project.countDocuments({
             owner: req.user.id
         });
@@ -739,21 +638,15 @@ const getDashboardStats = async (req, res) => {
             reviewedProjects,
             pendingProjects
         });
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 const getRecentProjects = async (req, res) => {
-
     try {
-
         const projects = await Project.find({
             owner: req.user.id
         })
@@ -761,21 +654,15 @@ const getRecentProjects = async (req, res) => {
         .limit(5);
 
         return res.status(200).json(projects);
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 const searchProjects = async (req, res) => {
-
     try {
-
         const keyword = req.query.keyword || "";
 
         const projects = await Project.find({
@@ -787,21 +674,15 @@ const searchProjects = async (req, res) => {
         });
 
         return res.status(200).json(projects);
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 const filterProjects = async (req, res) => {
-
     try {
-
         const status = req.query.status;
 
         const projects = await Project.find({
@@ -810,14 +691,26 @@ const filterProjects = async (req, res) => {
         });
 
         return res.status(200).json(projects);
-
     } catch (error) {
-
         return res.status(500).json({
             message: error.message
         });
-
     }
-
 };
-module.exports={createProject,getMyProjects, getProjectById,deleteProject,updateProject,uploadProject,getReview,getDashboardStats,getRecentProjects,searchProjects,filterProjects,getReviewHistory,downloadReviewPDF,reviewGithubProject};
+
+module.exports = {
+    createProject,
+    getMyProjects,
+    getProjectById,
+    deleteProject,
+    updateProject,
+    uploadProject,
+    getReview,
+    getDashboardStats,
+    getRecentProjects,
+    searchProjects,
+    filterProjects,
+    getReviewHistory,
+    downloadReviewPDF,
+    reviewGithubProject
+};
