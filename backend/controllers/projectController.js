@@ -5,7 +5,7 @@ const {
     generateCodeQualityReview,
     generateSecurityPerformanceReview,
     generateImprovementReview
-} = require("../service/gemini");
+} = require("../service/grokai");
 const {
     drawTitle,
     drawProjectInfo,
