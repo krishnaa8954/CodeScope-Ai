@@ -19,7 +19,7 @@ const AdmZip = require("adm-zip");
 const fs = require("fs");
 const path = require("path");
 const simpleGit = require("simple-git");
- 
+
 const git = simpleGit();
 
 // Helper delay function
@@ -63,9 +63,9 @@ const getMyProjects = async (req, res) => {
         const projects = await Project.find({
             owner: req.user.id
         })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit);
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
         res.status(200).json(projects);
 
@@ -109,7 +109,7 @@ const updateProject = async (req, res) => {
 const deleteProject = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id);
-        
+
         if (!project) {
             return res.status(404).json({
                 message: "Project not found"
@@ -148,7 +148,7 @@ const getFolderTree = (dirPath, prefix = "") => {
         ]);
 
         const items = fs.readdirSync(dirPath, { withFileTypes: true });
-        
+
         const filteredItems = items.filter(item => {
             if (item.isDirectory() && skipDirs.has(item.name)) return false;
             if (item.isFile() && skipFiles.has(item.name)) return false;
@@ -373,7 +373,7 @@ const reviewGithubProject = async (req, res) => {
 
         const folderTree = getFolderTree(clonePath);
         const rawCode = readFiles(clonePath);
-        
+
         const code = `
         PROJECT STRUCTURE
             ${folderTree}
@@ -499,7 +499,7 @@ const getReview = async (req, res) => {
         });
     }
 };
- 
+
 const getReviewHistory = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id);
@@ -588,7 +588,7 @@ const downloadReviewPDF = async (req, res) => {
         );
 
         doc.pipe(res);
-        
+
         drawTitle(doc);
         drawProjectInfo(doc, project);
 
@@ -650,8 +650,8 @@ const getRecentProjects = async (req, res) => {
         const projects = await Project.find({
             owner: req.user.id
         })
-        .sort({ createdAt: -1 })
-        .limit(5);
+            .sort({ createdAt: -1 })
+            .limit(5);
 
         return res.status(200).json(projects);
     } catch (error) {
